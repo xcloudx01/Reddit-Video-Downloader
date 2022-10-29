@@ -13,7 +13,7 @@ os.system('cls')
 download_dir: str = 'A:/'
 overwrite: bool = True
 debug: bool = False
-debug_url: str = 'https://old.reddit.com/r/cursed_videomemes/comments/yezokj/cursed_fish_on_a_bike/'  # Put a URL here to always download it.
+debug_url: str = ''  # Put a URL here to always download it.
 touch_file: bool = True
 
 
