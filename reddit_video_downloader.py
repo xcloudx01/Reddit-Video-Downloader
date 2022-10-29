@@ -72,6 +72,7 @@ def get_video(source_url):
             say(re.match(r'http?s://.+/r/.+/comments/', source_url))
             say('Source_Url is:' + source_url)
         return
+    # TODO Need to strip away from the URL or it won't work: ?context=3
     try:  # checks if link is valid
         r = get(
             source_url + '.json',
@@ -84,6 +85,7 @@ def get_video(source_url):
     if 'error' in r.text:
         if r.status_code == 404:
             say('Post not found', 'error')
+            say('Try removing anything after the first "?" in the URL')
             return
 
     try:
@@ -169,7 +171,7 @@ def cleanup_filename(filename: str) -> str:
                              .replace(' | ', '').replace('|', '') \
                              .replace(':', '-').replace('#', '').replace('@', '') \
                              .strip()
-    if clean_filename == '.':  # Discord can't send videos titled '.' (support for /r/shitposting)
+    if clean_filename == '':  # Discord can't send videos titled '.' (support for /r/shitposting)
         clean_filename = 'Reddit-' + alphanumeric_str(5)
     return clean_filename
 
