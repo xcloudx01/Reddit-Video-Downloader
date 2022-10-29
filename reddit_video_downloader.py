@@ -12,7 +12,7 @@ os.system('cls')
 
 download_dir: str = 'A:/'
 overwrite: bool = True
-debug: bool = False
+debug: bool = True
 debug_url: str = ''  # Put a URL here to always download it.
 touch_file: bool = True
 
@@ -44,6 +44,7 @@ def say(text, msg_type=''):
         print(prefix + text)
 
 
+
 def get_gif(json_data):
     try:
         gif_name = cleanup_filename(json_data["title"]) + '.gif'
@@ -72,7 +73,12 @@ def get_video(source_url):
             say(re.match(r'http?s://.+/r/.+/comments/', source_url))
             say('Source_Url is:' + source_url)
         return
-    # TODO Need to strip away from the URL or it won't work: ?context=3
+    ##############
+    # TODO: Tidy this up and make it its own function.
+    pos = source_url.find('?')  # json throws an error if there's a ? in the URL. Get rid of it, don't need it anyway.
+    if pos:
+        source_url = source_url[0:pos]
+    ##############
     try:  # checks if link is valid
         r = get(
             source_url + '.json',
@@ -85,7 +91,6 @@ def get_video(source_url):
     if 'error' in r.text:
         if r.status_code == 404:
             say('Post not found', 'error')
-            say('Try removing anything after the first "?" in the URL')
             return
 
     try:
